@@ -7,8 +7,8 @@ app = Flask(__name__)
 
 # --- Google Cloud Storage Configuration ---
 # TODO: Replace with your actual Google Cloud Project ID and Bucket Name
-PROJECT_ID = 'oacz-ariel-poc'  # Replace with your Google Cloud Project ID
-BUCKET_NAME = 'oacz-video-dubbing' # Replace with your Google Cloud Bucket Name
+PROJECT_ID = '<PROJECT-ID>'  # Replace with your Google Cloud Project ID
+BUCKET_NAME = '<BUCKET-NAME>' # Replace with your Google Cloud Bucket Name
 os.environ['GOOGLE_CLOUD_PROJECT'] = PROJECT_ID # Set project ID in environment (if needed)
 
 # Initialize Google Cloud Storage client
