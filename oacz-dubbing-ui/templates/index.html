@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Uploader</title>
+    <style>
+        /* Basic CSS for styling */
+        body { font-family: sans-serif; }
+        form { display: flex; flex-direction: column; max-width: 400px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; }
+        label { margin-bottom: 8px; }
+        input[type="file"], select, button { margin-bottom: 15px; padding: 8px; }
+        button { cursor: pointer; }
+        #message { margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <h2>Upload Video and Set Language</h2>
+
+        <label for="videoFile">Choose Video File:</label>
+        <input type="file" id="videoFile" name="videoFile" accept="video/*" required>
+
+        <label for="language">Select Language:</label>
+        <select id="language" name="language" required>
+            <option value="">-- Select Language --</option>
+            <option value="en-EN">English</option>
+            <option value="de-DE">German</option>
+            <option value="es-ES">Spanish</option>
+            </select>
+
+        <button type="submit">Upload and Submit</button>
+
+        <div id="message"></div>
+    </form>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = 'Uploading...'; // Initial message
+
+            fetch('/upload', { // Flask backend route
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json()) // Expect JSON response from backend
+            .then(data => {
+                messageDiv.textContent = data.message; // Display message from backend
+                if (data.success) {
+                    form.reset(); // Clear the form on success
+                }
+            })
+            .catch(error => {
+                messageDiv.textContent = 'Error during upload.';
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
